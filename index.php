@@ -10,57 +10,73 @@
 </head>
 
 <body>
-    <form action="" method="post">
-        <input style="margin-left: 40%;margin-top: 4%;" type="text" name="search" placeholder="search for your intern">
-    <div class="container mt-5 shadow-lg p-3 mb-5 rounded">
-        </form>
-        
-        <a href="added.php" class=" ">Added New Person</a>
-        <table class="table table-striped " style="border: solid ; ">
-            <thead style="background-color:red">
-                <tr>
-                    <th class="border-end border-black" scope="col">number</th>
-                    <th class="border-end border-black" scope="col">First Name</th>
-                    <th class="border-end border-black" scope="col">Last Name</th>
-                    <th class="border-end border-black" scope="col">Email</th>
-                    <th class="border-end border-black" scope="col">Sector</th>
-                    <th class="border-end border-black" scope="col">Profile Picture</th>
-                    <th class="border-end border-black" scope="col">Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                <?php
-                $nameserver = "localhost";
-                $username = "root";
-                $userpass = "root";
+    <form action="index.php" method="get">
+        <input style="margin-left: 40%;margin-top: 4%;" type="text" id="search" name="search" placeholder="search for your intern">
+        <div class="container mt-5 shadow-lg p-3 mb-5 rounded">
+    </form>
+
+    <a href="added.php" class=" ">Added New Person</a>
+    <table class="table table-striped " style="border: solid ; ">
+        <thead style="background-color:red">
+            <tr>
+                <th class="border-end border-black" scope="col">number</th>
+                <th class="border-end border-black" scope="col">First Name</th>
+                <th class="border-end border-black" scope="col">Last Name</th>
+                <th class="border-end border-black" scope="col">Email</th>
+                <th class="border-end border-black" scope="col">Sector</th>
+                <th class="border-end border-black" scope="col">Profile Picture</th>
+                <th class="border-end border-black" scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            <?php
+            $nameserver = "localhost";
+            $username = "root";
+            $userpass = "root";
+            $number = 1;
 
 
-                $conn = new PDO("mysql:host=$nameserver;dbname=db_stagiaires", $username, $userpass);
-                $stmt = $conn->prepare("SELECT * FROM stagiaires");
-                $stmt->execute();
-                $stagiaires = $stmt->fetchAll();
-                $number = 1;
-                foreach ($stagiaires as $s) {
-                    
-                ?>
-                    <form action="update.php" method="post">
-                        <tr style="border: solid;">
-                            <input type="hidden" name="id" value="<?php echo $s['id'] ?>">
-                            <th scope="row"><?php echo $number ?></th>
-                            <td class="border border-secondary-subtle"><?php echo $s['fname'] ?></td>
-                            <td class="border border-secondary-subtle"><?php echo $s['lname'] ?></td>
-                            <td class="border border-secondary-subtle"><?php echo $s['email'] ?></td>
-                            <td class="border border-secondary-subtle"><?php echo $s['sector'] ?></td>
-                            <td class="border border-secondary-subtle"><img style="width: 25%;" src="<?php echo $s['picture'] ?>" alt="profile picture"></td>
-                            <td class="border border-secondary-subtle"><button style="width: 100%;" class="btn btn-outline-primary">Modify</button></td>
-                        </tr>
-                    </form>
-                <?php
-                    $number +=1;
-                }
-                ?>
-            </tbody>
-        </table>
+            $conn = new PDO("mysql:host=$nameserver;dbname=db_stagiaires", $username, $userpass);
+
+
+            if (isset($_POST['search']) == '') {
+                $sql = $conn->prepare("SELECT * FROM stagiaires");
+                $sql->execute();
+                $stagiaires = $sql->fetchAll();
+            } else {
+                $sql = "SELECT * FROM stagiaires WHERE fname LIKE :search OR lname LIKE :search";
+                $sql = $conn->prepare($sql);
+                $sql->bindParam(':search' , $_POST['search']);
+                $sql->execute();
+                $stagiaires = $sql->fetch();
+            }
+
+
+
+
+
+
+            foreach ($stagiaires as $s) {
+
+            ?>
+                <form action="update.php" method="post">
+                    <tr style="border: solid;">
+                        <input type="hidden" name="id" value="<?php echo $s['id'] ?>">
+                        <th scope="row"><?php echo $number ?></th>
+                        <td class="border border-secondary-subtle"><?php echo $s['fname'] ?></td>
+                        <td class="border border-secondary-subtle"><?php echo $s['lname'] ?></td>
+                        <td class="border border-secondary-subtle"><?php echo $s['email'] ?></td>
+                        <td class="border border-secondary-subtle"><?php echo $s['sector'] ?></td>
+                        <td class="border border-secondary-subtle"><img style="width: 25%;" src="<?php echo $s['picture'] ?>" alt="profile picture"></td>
+                        <td class="border border-secondary-subtle"><button style="width: 100%;" class="btn btn-outline-primary">Modify</button></td>
+                    </tr>
+                </form>
+            <?php
+                $number += 1;
+            }
+            ?>
+        </tbody>
+    </table>
     </div>
 
 </body>
