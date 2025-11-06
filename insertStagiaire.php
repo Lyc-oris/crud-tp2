@@ -1,12 +1,6 @@
 <?php
 
-$nameserver = "localhost";
-$username = "root";
-$userpass = "root";
-
-
-
-$conn = new PDO("mysql:host=$nameserver;dbname=db_stagiaires", $username, $userpass);
+require 'db.php';
 
 $stmt = $conn->prepare("INSERT INTO stagiaires (lname , fname , email , sector , picture) VALUES(:a , :b , :c , :d ,:e)");
 

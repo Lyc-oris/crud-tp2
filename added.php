@@ -75,6 +75,7 @@
                                 </div>
                                 <div class="position-relative py-2 px-4 pb-5">
                                     <button class="btn btn-outline-primary position-absolute top-50 start-50 translate-middle mt-1 " name="redirect_button" id="redirect_button" type="submit">Added</button>
+                                    <a href="index.php" class=" btn btn-outline-primary position-absolute top-50 start-0 translate-middle-y" >List</a>
                                 </div>
                             </form>
                         </div>
