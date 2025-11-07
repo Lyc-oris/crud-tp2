@@ -45,7 +45,7 @@
 
                 require 'db.php';
 
-var_dump($_POST['selection']);
+
                 if (empty($_POST['search'] && empty($_POST['selection']))) {
                     $sql = $conn->prepare("SELECT * FROM stagiaires");
                     $sql->execute();
