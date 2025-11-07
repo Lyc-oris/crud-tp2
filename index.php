@@ -21,6 +21,7 @@
         <form action="index.php" method="post">
             <select name="selection" style="margin-bottom:5%;width:50%;" class="">
                 <option value="" selected>Select a field</option>
+                <option value="id">ID</option>
                 <option value="fname">First name</option>
                 <option value="lname">Last name</option>
                 <option value="email">Email</option>
@@ -44,14 +45,20 @@
                 <?php
 
                 require 'db.php';
+                require 'login.php';
 
+                if(isset($_SESSION) == 'users'){
+                    echo 'welcome' . $_SESSION['user'] ;
+                }
+                else
+                    header('location: login.php');
 
                 if (empty($_POST['search'] && empty($_POST['selection']))) {
                     $sql = $conn->prepare("SELECT * FROM stagiaires");
                     $sql->execute();
                     $stagiaires = $sql->fetchAll();
                 } elseif (isset($_POST['filter']) && isset($_POST['selection'])) {
-                    $allowed_columns = ['fname', 'lname', 'email', 'sector'];
+                    $allowed_columns = ['id','fname', 'lname', 'email', 'sector'];
                     $selection = $_POST['selection'];
 
                     if (in_array($selection, $allowed_columns)) {
