@@ -18,16 +18,15 @@
                 $_POST['search'] = '' ?>
             <input class="bg-white text-dark shadow-lg p-3 rounded" style="margin-bottom :5%; margin-left: 20%;" type="text" id="search" name="search" placeholder="search for your intern" value="<?php echo $_POST['search'] ?>">
         </form>
-        <form action="filter.php" method="post">
-            <?php  ?>
-            <select style="margin-bottom :5%;width:50% " class="form-select" aria-label="Default select example">
-                <option selected>Open this select menu</option>
-                <option value="byfname">first name</option>
-                <option value="bylname">last name</option>
-                <option value="byemail">email</option>
-                <option value="bysector">sector</option>
+        <form action="index.php" method="post">
+            <select name="selection" style="margin-bottom:5%;width:50%;" class="">
+                <option value="" selected>Select a field</option>
+                <option value="fname">First name</option>
+                <option value="lname">Last name</option>
+                <option value="email">Email</option>
+                <option value="sector">Sector</option>
             </select>
-            <button class="btn btn-outline-primary" type="submit">Filter</button>
+            <button class="btn btn-outline-primary" name="filter" type="submit">Filter</button>
         </form>
         <table class="table table-striped " style="border: solid ; ">
             <thead style="background-color:red">
@@ -46,12 +45,24 @@
 
                 require 'db.php';
 
-
-
-                if (empty($_POST['search'])) {
+var_dump($_POST['selection']);
+                if (empty($_POST['search'] && empty($_POST['selection']))) {
                     $sql = $conn->prepare("SELECT * FROM stagiaires");
                     $sql->execute();
                     $stagiaires = $sql->fetchAll();
+                } elseif (!empty($_POST['filter']) && !empty($_POST['selection'])) {
+                    $allowed_columns = ['fname', 'lname', 'email', 'sector'];
+                    $selection = $_POST['selection'];
+
+                    if (in_array($selection, $allowed_columns)) {
+                        $sql = "SELECT * FROM stagiaires ORDER BY $selection ASC";
+                        $stmt = $conn->prepare($sql);
+                        $stmt->execute();
+                        $stagiaires = $stmt->fetchAll();
+                    } else {
+                        echo "<p class='text-danger'>Invalid filter selection!</p>";
+                        $stagiaires = [];
+                    }
                 } else {
                     $sql = "SELECT * FROM stagiaires WHERE fname LIKE :search OR lname LIKE :search or email LIKE :search OR sector LIKE :search ";
                     $sql = $conn->prepare($sql);
