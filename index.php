@@ -50,12 +50,12 @@
                     $sql = $conn->prepare("SELECT * FROM stagiaires");
                     $sql->execute();
                     $stagiaires = $sql->fetchAll();
-                } elseif (!empty($_POST['filter']) && !empty($_POST['selection'])) {
+                } elseif (isset($_POST['filter']) && isset($_POST['selection'])) {
                     $allowed_columns = ['fname', 'lname', 'email', 'sector'];
                     $selection = $_POST['selection'];
 
                     if (in_array($selection, $allowed_columns)) {
-                        $sql = "SELECT * FROM stagiaires ORDER BY $selection ASC";
+                        $sql = "SELECT * FROM stagiaires ORDER BY $selection DESC";
                         $stmt = $conn->prepare($sql);
                         $stmt->execute();
                         $stagiaires = $stmt->fetchAll();
