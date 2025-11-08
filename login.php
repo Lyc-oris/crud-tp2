@@ -1,14 +1,3 @@
-<?php
-
-require 'db.php';
-session_start();
-
-$smt = $conn->prepare("SELECT * FROM Users");
-$smt->execute();
-$smt->fetch() ;
-var_dump($_SESSION);
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -21,21 +10,32 @@ var_dump($_SESSION);
 </head>
 
 <body>
-    <div class="d-flex">
-        <form action="index.php" method="post"></form>
-        <div class="justify-content-center container" style="width: 50%;">
+    <form class="d-flex justify-content-center  border border-5 shadow-lg" style="padding: 0;margin:4%" action="logindb.php" method="post">
+        <div class="" style="width:50%;">
             <h3>Sign in</h3>
+            <?php
+            session_start();
+            if (isset($_SESSION['user']) == true) {
+                header('location: index.php');
+            }
+            ?>
             <div class="input-group mb-3 ">
-                <span class="input-group-text" id="basic-addon1">@</span>
-                <input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="basic-addon1">
+                <span class="input-group-text" id="email">@</span>
+                <input type="email" class="form-control" name="email" id="email" placeholder="Tapez votre e-mail" required>
             </div>
             <div class="input-group mb-3 ">
-                <span class="input-group-text" id="basic-addon2">*</span>
-                <input type="password" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="basic-addon2">
+                <span class="input-group-text" id="password">*</span>
+                <input type="password" class="form-control" name="password" id="password" required>
             </div>
-            <button class="btn btn-outline-primary" name="login" type="submit">Sign in</button>
+            <?php
+            if (isset($_GET['error']) == true && $_GET['error'] == "true")
+                echo "<span>Les infosrmations sont érronées</span>"
+
+            ?>
         </div>
-    </div>
+        <button class="btn btn-outline-primary" name="login" type="submit">Sign in</button>
+        </div>
+    </form>
 </body>
 
 </html>

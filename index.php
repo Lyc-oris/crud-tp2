@@ -12,6 +12,7 @@
 <body>
 
     <div class="container mt-5 shadow-lg pb-3 mb-5 rounded">
+        <a href="logout.php" style="margin-top: 5%;" class="btn btn-outline-primary" type="submit">Log out</a>
         <a style="margin-top: 5%;" href="added.php" class="btn btn-outline-primary">Added New Person</a>
         <form action="index.php" method="post">
             <?php if (empty($_POST['search']))
@@ -45,10 +46,9 @@
                 <?php
 
                 require 'db.php';
-                require 'login.php';
-
-                if(isset($_SESSION) == 'users'){
-                    echo 'welcome' . $_SESSION['user'] ;
+                session_start();
+                if(isset($_SESSION) == 'user'){
+                    echo '<h4>welcome' . '  ' .$_SESSION['user']['user'] .'</h4>';
                 }
                 else
                     header('location: login.php');
