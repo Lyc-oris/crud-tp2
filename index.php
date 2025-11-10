@@ -11,13 +11,13 @@
 
 <body>
 
-    <div class="container mt-5 shadow-lg pb-3 mb-5 rounded">
+    <div class="container mt-5 shadow-lg p-3 mb-5 rounded border border-success">
         <a href="logout.php" style="margin-top: 5%;" class="btn btn-outline-primary" type="submit">Log out</a>
         <a style="margin-top: 5%;" href="added.php" class="btn btn-outline-primary">Added New Person</a>
         <form action="index.php" method="post">
             <?php if (empty($_POST['search']))
                 $_POST['search'] = '' ?>
-            <input class="bg-white text-dark shadow-lg p-3 rounded" style="margin-bottom :5%; margin-left: 20%;" type="text" id="search" name="search" placeholder="search for your intern" value="<?php echo $_POST['search'] ?>">
+            <input class="bg-white text-dark shadow-lg p-3 rounded" style="margin-top: 3%;margin-bottom:3%" type="text" id="search" name="search" placeholder="search for your intern" value="<?php echo $_POST['search'] ?>">
         </form>
         <form action="index.php" method="post">
             <select name="selection" style="margin-bottom:5%;width:50%;" class="">
@@ -47,7 +47,7 @@
 
                 require 'db.php';
                 session_start();
-                if(isset($_SESSION) == 'user'){
+                if(isset($_SESSION['user']) == 'user'){
                     echo '<h4>welcome' . '  ' .$_SESSION['user']['user'] .'</h4>';
                 }
                 else

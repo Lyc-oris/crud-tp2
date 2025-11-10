@@ -2,7 +2,7 @@
 
 $nameserver = "localhost";
 $username = "root";
-$userpass = "";
+$userpass = "root";
 
 try{ 
     $conn = new PDO("mysql:host=$nameserver;dbname=db_stagiaires",$username ,$userpass);

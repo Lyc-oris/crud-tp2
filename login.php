@@ -10,30 +10,34 @@
 </head>
 
 <body>
-    <form class="d-flex justify-content-center  border border-5 shadow-lg" style="padding: 0;margin:4%" action="logindb.php" method="post">
-        <div class="" style="width:50%;">
-            <h3>Sign in</h3>
-            <?php
-            session_start();
-            if (isset($_SESSION['user']) == true) {
-                header('location: index.php');
-            }
-            ?>
-            <div class="input-group mb-3 ">
-                <span class="input-group-text" id="email">@</span>
-                <input type="email" class="form-control" name="email" id="email" placeholder="Tapez votre e-mail" required>
-            </div>
-            <div class="input-group mb-3 ">
-                <span class="input-group-text" id="password">*</span>
-                <input type="password" class="form-control" name="password" id="password" required>
-            </div>
-            <?php
-            if (isset($_GET['error']) == true && $_GET['error'] == "true")
-                echo "<span>Les infosrmations sont érronées</span>"
+    <form class="d-flex justify-content-center" style="margin: 3%;" action="logindb.php" method="post">
+        <div class="  border border-5 border-success shadow-lg" style="width: 50%;padding:3%">
+            <div>
+                <img style="margin-left: 30%;" src="https://img.freepik.com/free-vector/access-control-system-abstract-concept_335657-3180.jpg?semt=ais_hybrid&w=740&q=80" alt="picture" width="35%">
+                <h3>Sign in</h3>
+                <?php
+                session_start();
+                if (isset($_SESSION['user']) == true) {
+                    header('location: index.php');
+                }
+                ?>
+                <div class="input-group mb-3 ">
+                    <span class="input-group-text" id="email">@</span>
+                    <input type="email" class="form-control" name="email" id="email" placeholder="Tapez votre e-mail" required>
+                </div>
+                <div class="input-group mb-3 ">
+                    <span class="input-group-text" id="password">*</span>
+                    <input type="password" class="form-control" name="password" id="password" required>
+                </div>
+                <?php
+                if (isset($_GET['error']) == true && $_GET['error'] == "true")
+                    echo "<span>Les infosrmations sont érronées</span>"
 
-            ?>
+                ?>
+                <button class="btn btn-outline-primary" name="login" type="submit">Sign in</button>
+            </div>
         </div>
-        <button class="btn btn-outline-primary" name="login" type="submit">Sign in</button>
+
         </div>
     </form>
 </body>
